@@ -1,0 +1,25 @@
+(* We want the user to specify his own Subscript[H, 0] and 
+Subscript[T, c] rather than using our own constant value*)
+H = Input["Give me the Critical Magnetic Field (H0)"];
+T = Input["Give me the Critical Temperature (Tc)"];
+
+(* Simple Exception Handling while trying to divide by zero :)*)
+While[T  == 0 , 
+  CreateDialog[{TextCell[
+     "Singularity occured while trying to Divide by Zero \nThe 
+program will now terminate !!"], DefaultButton[]}, Modal -> True]; 
+  Exit[]]; 
+
+(*Plotting parameters*)
+Dynamic[StatusArea[
+  Plot[ Tooltip[y = H (1 - (x/T)^2), 
+    "Region of Phase transition in a superconductor. \nThe shaded 
+part below shows superconducting state & \nThe unshaded part above 
+shows normal state"], {x, 0 , 10}, Filling -> Axis, 
+   PlotRange -> {0, 5}(* The Y axis is plotted upto 5 , So input 0< 
+   H \[LessEqual] 5 *), AxesLabel -> {"T" , "H"} , 
+   PlotLabel -> "Magnetic Field vs Temperature in a Superconductor"], 
+  MousePosition[
+   "Graphics"]]] (* Dynamic updates the content continuously.
+MousePosition with StatusArea gives the coordinates of cursor in the 
+bottom of the notebook aka status area.*)
